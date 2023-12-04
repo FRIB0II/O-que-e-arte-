@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+/* Define a animação do pulso para o coração */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Define a animação do piscar para as pálpebras */
+@keyframes blink {
+  0%, 50%, 100% {
+    height: 0px;
+  }
+  25%, 75% {
+    height: 80px; /* increased to cover the whole eye */
+  }
+}
+
+/* Estiliza o corpo da página */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #f8c3cb;
+}
+
+/* Estiliza o coração */
+.heart {
+  position: absolute;
+  width: 400px; /* 4 times the original size */
+  height: 360px; /* 4 times the original size */
+  animation: pulse 1s infinite; /* applies the pulse animation */
+}
+
+/* Estiliza as partes superior esquerda e direita do coração */
+.heart::before, .heart::after {
+  content: "";
+  position: absolute;
+  top: 160px; /* 4 times the original size */
+  width: 208px; /* 4 times the original size */
+  height: 320px; /* 4 times the original size */
+  background: red;
+  border-radius: 200px 200px 0 0; /* rounded top */
+}
+
+/* Estiliza a parte superior esquerda do coração */
+.heart::before {
+  left: 200px; /* 4 times the original size */
+  transform: rotate(-45deg);
+  transform-origin: 0 100%;
+}
+
+/* Estiliza a parte superior direita do coração */
+.heart::after {
+  left: 0;
+  border-radius: 200px 200px 0 0; /* rounded top */
+  transform: rotate(45deg);
+  transform-origin: 100% 100%;
+}
+
+/* Estiliza os olhos */
+.eye {
+  position: absolute;
+  top: 20px; /* double the distance from the heart */
+  width: 80px;
+  height: 80px;
+  background: #fff;
+  border-radius: 50%;
+}
+
+/* Estiliza as pupilas dos olhos */
+.eye::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 40px;
+  height: 40px;
+  background: #000;
+  border-radius: 50%;
+}
+
+
+/* Estiliza a velocidade do olho esquerdo */
+.eye.left::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 10px;
+  width: 60px;
+  height: 0px;
+  background: #fff;
+  border-radius: 50%;
+  animation: blink 2.5s infinite; /* applies the blink animation */
+}
+
+/* Estiliza a velocidade do olho direito */
+.eye.right::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 10px;
+  width: 60px;
+  height: 0px;
+  background: #fff;
+  border-radius: 50%;
+  animation: blink 3s infinite; /* applies the blink animation */
+}
+
+/* Estiliza o olho esquerdo */
+.eye.left {
+  left: calc(50% - 200px); /* centralize on the page */
+  top: 102px;
+}
+
+/* Estiliza o olho direito */
+.eye.right {
+  left: calc(50% + 120px); /* centralize on the page */
+  top: 102px;
+}
+</style>
+<script>
+window.onload = function() {
+  var heart = document.querySelector('.heart');
+  var eyes = document.querySelectorAll('.eye::after');
+  heart.addEventListener('mouseover', function() {
+    heart.style.animationDuration = '0.5s'; /* make the heart pulse faster */
+    eyes.forEach(function(eye) {
+      eye.style.animationPlayState = 'paused'; /* stop the eyes from blinking */
+      eye.style.height = '40px'; /* make the eyes half open */
+    });
+  });
+  heart.addEventListener('mouseout', function() {
+    heart.style.animationDuration = '1s'; /* reset the heart pulse speed */
+    eyes.forEach(function(eye) {
+      eye.style.animationPlayState = 'running'; /* resume the eyes blinking */
+      eye.style.height = '0px'; /* make the eyes blink again */
+    });
+  });
+};
+</script>
+</head>
+<body>
+
+<!-- Cria o coração na página -->
+<div class="heart"></div>
+
+<!-- Cria os olhos na página -->
+<div class="eye left"></div>
+<div class="eye right"></div>
+
+</body>
+</html>
